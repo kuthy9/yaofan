@@ -1,5 +1,14 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import {
+    Dialog,
+    DialogContent,
+    DialogHeader,
+    DialogTitle,
+    DialogDescription,
+} from "@/components/ui/dialog";
 import { motion } from "framer-motion";
 import { Coffee, Utensils, Cloud, Loader2 } from "lucide-react";
 import { useState } from "react";
@@ -9,16 +18,31 @@ type CheckoutType = "drink" | "dinner" | "cloud";
 export function PaymentSection() {
     const [isLoading, setIsLoading] = useState<string | null>(null);
     const [customAmount, setCustomAmount] = useState<string>("100");
+    const [isOpen, setIsOpen] = useState(false);
+    const [selectedType, setSelectedType] = useState<CheckoutType | null>(null);
+    const [donorInfo, setDonorInfo] = useState({ name: "", message: "" });
 
-    const createCheckoutSession = async (type: CheckoutType, amount?: number) => {
-        setIsLoading(type);
+    const handlePaymentClick = (type: CheckoutType) => {
+        setSelectedType(type);
+        setIsOpen(true);
+    };
+
+    const confirmPayment = async () => {
+        if (!selectedType) return;
+        setIsLoading(selectedType);
         try {
+            const amount = selectedType === 'cloud' ? Number(customAmount) : undefined;
             const response = await fetch("/api/create-checkout-session", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ type, amount }),
+                body: JSON.stringify({
+                    type: selectedType,
+                    amount,
+                    display_name: donorInfo.name,
+                    message: donorInfo.message
+                }),
             });
 
             if (!response.ok) {
@@ -32,8 +56,8 @@ export function PaymentSection() {
         } catch (error) {
             console.error("Error creating checkout session:", error);
             alert("支付初始化失败，请稍后再试。");
-        } finally {
             setIsLoading(null);
+            setIsOpen(false);
         }
     };
 
@@ -45,7 +69,7 @@ export function PaymentSection() {
             price: "¥15",
             desc: "我会在心里默默喊你一声大哥。",
             color: "hover:bg-amber-gold/10 hover:border-amber-gold text-text-main",
-            action: () => createCheckoutSession("drink")
+            action: () => handlePaymentClick("drink")
         },
         {
             id: "dinner",
@@ -54,7 +78,7 @@ export function PaymentSection() {
             price: "¥40",
             desc: "我会认真咀嚼每一口，以示尊重。",
             color: "hover:bg-amber-gold/20 hover:border-amber-dark text-text-main",
-            action: () => createCheckoutSession("dinner")
+            action: () => handlePaymentClick("dinner")
         },
         {
             id: "cloud",
@@ -113,7 +137,7 @@ export function PaymentSection() {
                                         </div>
                                         <Button
                                             className="w-full bg-rouge-pink hover:bg-rouge-pink/90 text-white font-bold h-8"
-                                            onClick={() => createCheckoutSession("cloud", Number(customAmount))}
+                                            onClick={() => handlePaymentClick("cloud")}
                                             disabled={isLoading === "cloud"}
                                         >
                                             {isLoading === "cloud" ? <Loader2 className="w-4 h-4 animate-spin" /> : "支付"}
@@ -142,6 +166,45 @@ export function PaymentSection() {
                     ))}
                 </div>
             </motion.div>
+
+            <Dialog open={isOpen} onOpenChange={setIsOpen}>
+                <DialogContent className="sm:max-w-md bg-white border-neutral-200">
+                    <DialogHeader>
+                        <DialogTitle>留个名吧，好心人</DialogTitle>
+                        <DialogDescription>
+                            您的名字和祝福语将出现在功德墙上（即使不填也不影响功德）。
+                        </DialogDescription>
+                    </DialogHeader>
+                    <div className="space-y-4 py-4">
+                        <div className="space-y-2">
+                            <Label htmlFor="name">昵称 (可选)</Label>
+                            <Input
+                                id="name"
+                                placeholder="匿名好心人"
+                                value={donorInfo.name}
+                                onChange={(e) => setDonorInfo({ ...donorInfo, name: e.target.value })}
+                            />
+                        </div>
+                        <div className="space-y-2">
+                            <Label htmlFor="message">祝福语 (可选)</Label>
+                            <Textarea
+                                id="message"
+                                placeholder="功德 +1"
+                                value={donorInfo.message}
+                                onChange={(e) => setDonorInfo({ ...donorInfo, message: e.target.value })}
+                            />
+                        </div>
+                        <Button
+                            className="w-full font-bold"
+                            onClick={confirmPayment}
+                            disabled={!!isLoading}
+                        >
+                            {isLoading ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : null}
+                            {isLoading ? "跳转支付中..." : "确认支付"}
+                        </Button>
+                    </div>
+                </DialogContent>
+            </Dialog>
         </section>
     );
 }

@@ -14,7 +14,7 @@ export default async function handler(
     }
 
     try {
-        const { type, amount } = req.body;
+        const { type, amount, display_name, message } = req.body;
         const origin = process.env.FRONTEND_ORIGIN ?? req.headers.origin ?? 'http://localhost:5173';
 
         let sessionConfig: Stripe.Checkout.SessionCreateParams = {
@@ -22,6 +22,10 @@ export default async function handler(
             mode: 'payment',
             success_url: `${origin}/thankyou?session_id={CHECKOUT_SESSION_ID}`,
             cancel_url: `${origin}/`,
+            metadata: {
+                display_name: display_name || '匿名好心人',
+                message: message || '',
+            },
         };
 
         if (type === 'drink') {
