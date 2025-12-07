@@ -22,11 +22,11 @@ const LEVELS: LevelInfo[] = [
     { level: 5, key: 'cyber_buddha', name: '赛博佛祖', min: 100001, max: null, status: '你不再要饭，宇宙开始回饭给你' },
 ];
 
-// Simple exchange rate approximation
+// Exchange rates to CAD (all amounts will be converted to CAD)
 const EXCHANGE_RATES: Record<string, number> = {
-    'cny': 1,
-    'cad': 5.2,
-    'usd': 7.2,
+    'cny': 0.19,  // 1 CNY = 0.19 CAD
+    'cad': 1,     // 1 CAD = 1 CAD (base currency)
+    'usd': 1.4,   // 1 USD = 1.4 CAD
 };
 
 export default async function handler(
@@ -48,23 +48,20 @@ export default async function handler(
             throw error;
         }
 
-        let totalAmountCNY = 0;
+        let totalAmountCAD = 0;
 
-        // Calculate total amount in CNY
+        // Calculate total amount in CAD (base currency)
         // Note: amount is in cents (minimal unit)
         (payments || []).forEach(p => {
             const currency = p.currency.toLowerCase();
-            const rate = EXCHANGE_RATES[currency] || 1; // Default to 1 if unknown, potentially risky but safe for now
+            const rate = EXCHANGE_RATES[currency] || 1; // Default to 1 if unknown
             const amountInCent = p.amount;
             const amountInUnit = amountInCent / 100;
-            totalAmountCNY += amountInUnit * rate;
+            totalAmountCAD += amountInUnit * rate;
         });
 
-        // Add fake initial data mentioned in prompt ($224 CAD approx) if needed, 
-        // but cleaner to rely on DB. Ideally user seeded this.
-        // Let's assume the seeded data + whatever manual test covers it.
-
-        totalAmountCNY = Math.floor(totalAmountCNY);
+        // Round to nearest integer (e.g., 521.62 -> 522)
+        totalAmountCAD = Math.round(totalAmountCAD);
 
         // Determine Level
         let currentLevel = LEVELS[0];
@@ -72,8 +69,8 @@ export default async function handler(
 
         for (let i = 0; i < LEVELS.length; i++) {
             const lvl = LEVELS[i];
-            if (totalAmountCNY >= lvl.min) {
-                if (lvl.max === null || totalAmountCNY <= lvl.max) {
+            if (totalAmountCAD >= lvl.min) {
+                if (lvl.max === null || totalAmountCAD <= lvl.max) {
                     currentLevel = lvl;
                     // Check next level
                     if (i + 1 < LEVELS.length) {
@@ -81,7 +78,7 @@ export default async function handler(
                         nextLevelInfo = {
                             level: next.level,
                             name: next.name,
-                            neededExp: next.min - totalAmountCNY
+                            neededExp: next.min - totalAmountCAD
                         };
                     } else {
                         // Max level
@@ -109,13 +106,13 @@ export default async function handler(
             progressInLevel = 1; // Max level full progress
         } else {
             const range = currentLevel.max - currentLevel.min;
-            const currentExp = totalAmountCNY - currentLevel.min;
+            const currentExp = totalAmountCAD - currentLevel.min;
             // Avoid division by zero if range is somehow 0
             progressInLevel = range > 0 ? Math.min(1, Math.max(0, currentExp / range)) : 1;
         }
 
         return res.status(200).json({
-            totalAmount: totalAmountCNY,
+            totalAmount: totalAmountCAD,
             currentLevel: {
                 ...currentLevel,
                 progressInLevel
