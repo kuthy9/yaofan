@@ -35,7 +35,7 @@ export function Footer() {
                     打钱不能退款，但可以换来一条真诚的谢谢，以及我继续在互联网上抽象地活下去的勇气。
                 </p>
                 <p className="opacity-50 font-mono text-xs">
-                    © {new Date().getFullYear()} Respectable Begging Inc.
+                    © {new Date().getFullYear()} yaofan.io
                 </p>
             </div>
         </footer>

@@ -88,7 +88,7 @@ export function MeritWall() {
                                     </div>
                                     <div className="text-right">
                                         <p className="text-sm font-bold text-amber-dark font-mono">
-                                            {donor.currency.toUpperCase() === 'CAD' ? 'CA$' : '¥'}{donor.display_amount}
+                                            ${donor.display_amount}
                                         </p>
                                         <p className="text-[10px] text-neutral-400 group-hover:text-amber-gold transition-colors">功德 +1</p>
                                     </div>

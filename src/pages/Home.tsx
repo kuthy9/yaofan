@@ -1,6 +1,6 @@
 import { Navbar } from "@/components/Navbar";
 import { Hero } from "@/components/Hero";
-import { ProgressBar } from "@/components/ProgressBar";
+import { HpBar } from "@/components/HpBar";
 import { ReasonSection } from "@/components/ReasonCard";
 import { PaymentSection } from "@/components/PaymentSection";
 import { MeritWall } from "@/components/MeritWall";
@@ -13,7 +13,7 @@ export default function Home() {
             <main className="space-y-0 pb-20">
                 <Hero />
                 <div className="-mt-12 relative z-20">
-                    <ProgressBar />
+                    <HpBar />
                 </div>
 
                 {/* Grouped Interaction Section */}

@@ -66,7 +66,7 @@ export function PaymentSection() {
             id: "drink",
             icon: Coffee,
             label: "请 TA 喝杯饮料",
-            price: "¥15",
+            price: "$15",
             desc: "我会在心里默默喊你一声大哥。",
             color: "hover:bg-amber-gold/10 hover:border-amber-gold text-text-main",
             action: () => handlePaymentClick("drink")
@@ -75,7 +75,7 @@ export function PaymentSection() {
             id: "dinner",
             icon: Utensils,
             label: "资助一顿正经晚饭",
-            price: "¥40",
+            price: "$40",
             desc: "我会认真咀嚼每一口，以示尊重。",
             color: "hover:bg-amber-gold/20 hover:border-amber-dark text-text-main",
             action: () => handlePaymentClick("dinner")
