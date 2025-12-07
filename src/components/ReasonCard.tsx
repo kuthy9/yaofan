@@ -39,15 +39,15 @@ export function ReasonCard({ title, content, delay = 0 }: ReasonCardProps) {
 export function ReasonSection() {
     const reasons = [
         {
-            title: "创业烧钱版",
+            title: "创业烧钱",
             content: "想一边搞奇怪的 SaaS，一边还活着。你的打钱会直接被我换成云服务、速冻水饺，还有 ChatGPT Plus。"
         },
         {
-            title: "精神卫生版",
+            title: "精神续命",
             content: "你给我的钱，不一定能改变世界。但大概率能让我少怀疑人生 0.3 天。"
         },
         {
-            title: "诚实打赏版",
+            title: "诚实打赏",
             content: "这不是梦想众筹，也不是公益项目。就是一个成年人的体面要饭现场。"
         }
     ];

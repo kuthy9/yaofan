@@ -182,7 +182,7 @@ export function PaymentSection() {
                                 id="name"
                                 placeholder="匿名好心人"
                                 value={donorInfo.name}
-                                onChange={(e) => setDonorInfo({ ...donorInfo, name: e.target.value })}
+                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setDonorInfo({ ...donorInfo, name: e.target.value })}
                             />
                         </div>
                         <div className="space-y-2">
@@ -191,7 +191,7 @@ export function PaymentSection() {
                                 id="message"
                                 placeholder="功德 +1"
                                 value={donorInfo.message}
-                                onChange={(e) => setDonorInfo({ ...donorInfo, message: e.target.value })}
+                                onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setDonorInfo({ ...donorInfo, message: e.target.value })}
                             />
                         </div>
                         <Button

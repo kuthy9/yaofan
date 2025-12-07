@@ -59,7 +59,7 @@ export function MeritWall() {
         <section className="py-12 px-4 bg-warm-white/50 border-t border-neutral-200/30">
             <div className="max-w-2xl mx-auto space-y-6">
                 <h2 className="text-center text-sm font-mono text-text-sub uppercase tracking-widest opacity-70">
-                    最近几位好心人 (功德 +1)
+                    最近几位好心人
                 </h2>
 
                 <div className="relative h-[300px] overflow-hidden rounded-xl bg-white border border-neutral-200 shadow-sm p-6">
