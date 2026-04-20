@@ -5,10 +5,8 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
     apiVersion: '2025-11-17.clover',
 });
 
-const singleProjectPriceId =
-    process.env.STRIPE_PRICE_SINGLE_PROJECT ?? process.env.STRIPE_PRICE_DRINK;
-const allAccessPriceId =
-    process.env.STRIPE_PRICE_ALL_ACCESS ?? process.env.STRIPE_PRICE_DINNER;
+const singleProjectPriceId = process.env.STRIPE_PRICE_SINGLE_PROJECT;
+const allAccessPriceId = process.env.STRIPE_PRICE_ALL_ACCESS;
 
 export default async function handler(
     req: VercelRequest,
