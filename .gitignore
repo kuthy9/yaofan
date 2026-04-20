@@ -11,6 +11,9 @@ node_modules
 dist
 dist-ssr
 *.local
+.env
+.env.*
+!.env.example
 
 # Editor directories and files
 .vscode/*
@@ -23,10 +26,9 @@ dist-ssr
 *.sln
 *.sw?
 .vercel
-
-# Development scripts (not needed in production)
-scripts/
+supabase/.temp/
 
 # Legacy components (keeping for reference but not tracking changes)
 src/components/ProgressBar.tsx
 @/
+yaofan_tree.txt

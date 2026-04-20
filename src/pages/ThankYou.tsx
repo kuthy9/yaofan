@@ -82,10 +82,10 @@ export default function ThankYou() {
                 transition={{ duration: 1, delay: 0.5 }}
             >
                 <h1 className="text-4xl md:text-6xl font-black bg-clip-text text-transparent bg-gradient-to-b from-amber-gold to-amber-dark font-sans drop-shadow-[0_0_15px_rgba(255,198,75,0.3)]">
-                    功德 +1 🙏
+                    投喂成功
                 </h1>
                 <p className="text-xl text-neutral-gray font-serif">
-                    老方丈已为你敲下今日的一记木鱼。
+                    这个小项目又多活了一会儿。
                 </p>
             </motion.div>
 
@@ -151,7 +151,7 @@ export default function ThankYou() {
                     </div>
                     <Progress value={60} className="h-2 bg-gray-100 border border-neutral-pink/50 [&>div]:bg-amber-gold shadow-[0_0_10px_rgba(255,198,75,0.2)]" />
                     <p className="text-xs text-muted-foreground pt-2 font-serif">
-                        你的打钱已成功转化为 0.3 天的精神稳定度。
+                        你的支持会优先变成 API 额度、版本更新和下一轮奇怪想法。
                     </p>
                 </div>
 
@@ -163,7 +163,7 @@ export default function ThankYou() {
                         onClick={() => navigate("/")}
                     >
                         <ArrowLeft className="w-4 h-4" />
-                        回到要饭现场
+                        回到项目现场
                     </Button>
                     <Button
                         size="lg"
@@ -171,11 +171,10 @@ export default function ThankYou() {
                         onClick={() => alert("已复制链接，快去祸害朋友吧！")}
                     >
                         <Share2 className="w-4 h-4" />
-                        把这件荒唐事分享给朋友
+                        把这个项目分享给朋友
                     </Button>
                 </div>
             </motion.div>
         </div>
     );
 }
-

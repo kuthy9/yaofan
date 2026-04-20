@@ -10,18 +10,10 @@ create table public.payments (
   created_at timestamptz default now()
 );
 
--- Create phrases table
-create table public.phrases (
-  id uuid primary key default gen_random_uuid(),
-  phrase text not null
-);
-
 -- Enable RLS (Optional but recommended)
 alter table public.payments enable row level security;
-alter table public.phrases enable row level security;
 
 -- Create policy to allow public read access to payments (for merit wall)
 create policy "Enable read access for all users" on public.payments for select using (true);
-create policy "Enable read access for all users" on public.phrases for select using (true);
 
 -- (If you need to insert from server implementation using service role, RLS is bypassed automatically)

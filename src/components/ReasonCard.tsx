@@ -1,33 +1,33 @@
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { motion } from "framer-motion";
+import { howItWorksSteps } from "@/data/siteContent";
 
 interface ReasonCardProps {
     title: string;
     content: string;
     delay?: number;
+    index: number;
 }
 
-export function ReasonCard({ title, content, delay = 0 }: ReasonCardProps) {
+export function ReasonCard({ title, content, delay = 0, index }: ReasonCardProps) {
     return (
         <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay, ease: "easeInOut" }}
-            whileHover={{
-                scale: 1.02,
-                rotate: [0, 0.5, -0.5, 0],
-                transition: { rotate: { duration: 0.4, repeat: 1, ease: "easeInOut" } }
-            }}
         >
-            <Card className="h-full bg-warm-card border-neutral-200/50 hover:border-amber-gold/50 hover:shadow-[0_0_20px_rgba(255,198,75,0.1)] transition-all duration-500 group">
+            <Card className="h-full rounded-[28px] border-[#e5d8ca] bg-[linear-gradient(180deg,rgba(255,255,255,0.92),rgba(255,248,240,0.96))] shadow-[0_16px_44px_rgba(34,27,20,0.05)] transition hover:-translate-y-1 hover:shadow-[0_22px_54px_rgba(34,27,20,0.08)]">
                 <CardHeader>
-                    <CardTitle className="text-xl font-bold text-[#333333] group-hover:text-amber-dark transition-colors duration-500 font-sans">
+                    <div className="mb-4 text-xs font-semibold uppercase tracking-[0.24em] text-[#a18870]">
+                        0{index}
+                    </div>
+                    <CardTitle className="text-2xl font-black tracking-tight text-[#211a16]">
                         {title}
                     </CardTitle>
                 </CardHeader>
                 <CardContent>
-                    <p className="text-text-sub leading-relaxed font-serif text-lg">
+                    <p className="text-base leading-7 text-[#665648]">
                         {content}
                     </p>
                 </CardContent>
@@ -37,31 +37,22 @@ export function ReasonCard({ title, content, delay = 0 }: ReasonCardProps) {
 }
 
 export function ReasonSection() {
-    const reasons = [
-        {
-            title: "创业烧钱",
-            content: "想一边搞奇怪的 SaaS，一边还活着。你的打钱会直接被我换成云服务、速冻水饺，还有 ChatGPT Plus。"
-        },
-        {
-            title: "精神续命",
-            content: "你给我的钱，不一定能改变世界。但大概率能让我少怀疑人生 0.3 天。"
-        },
-        {
-            title: "诚实打赏",
-            content: "这不是梦想众筹，也不是公益项目。就是一个成年人的体面要饭现场。"
-        }
-    ];
-
     return (
-        <section className="py-12 px-4 max-w-6xl mx-auto">
-            <div className="text-center mb-12">
-                <h2 className="text-2xl font-bold text-text-main inline-block border-b-4 border-amber-gold/30 pb-2">
-                    要饭理由
+        <section id="how-it-works" className="mx-auto max-w-6xl px-4 py-20">
+            <div className="mb-12 max-w-2xl space-y-3">
+                <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#9b856d]">
+                    它是如何工作的
+                </p>
+                <h2 className="text-3xl font-black tracking-tight text-[#211b16] md:text-5xl">
+                    很简单，先玩，再喂，再等它更新
                 </h2>
+                <p className="text-base leading-7 text-[#6d5e4f]">
+                    这不是企业工作流，也不搞复杂增长漏斗。就是把喜欢变成更新频率。
+                </p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {reasons.map((reason, index) => (
-                    <ReasonCard key={index} {...reason} delay={index * 0.1} />
+                {howItWorksSteps.map((reason, index) => (
+                    <ReasonCard key={reason.id} title={reason.title} content={reason.description} delay={index * 0.1} index={index + 1} />
                 ))}
             </div>
         </section>

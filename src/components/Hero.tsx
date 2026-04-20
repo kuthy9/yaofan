@@ -1,95 +1,111 @@
 import { motion } from "framer-motion";
+import { ArrowRight, Star } from "lucide-react";
+
+import { brandCopy } from "@/data/siteContent";
 import { Button } from "@/components/ui/button";
 
 export function Hero() {
-    return (
-        <section className="min-h-[80vh] flex flex-col justify-center items-center text-center px-4 relative overflow-hidden">
-            {/* Background effects */}
-            <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-purple-900/20 via-background to-background" />
+  return (
+    <section className="relative overflow-hidden px-4 pb-14 pt-14 md:pb-20 md:pt-20">
+      <div className="absolute inset-0 -z-20 bg-[radial-gradient(circle_at_top_left,rgba(255,214,148,0.32),transparent_34%),radial-gradient(circle_at_88%_12%,rgba(240,137,84,0.18),transparent_24%),linear-gradient(180deg,#fff9f2_0%,#fff6ee_100%)]" />
+      <div className="absolute left-[8%] top-16 -z-10 h-40 w-40 rounded-full bg-[#ffdca0]/40 blur-3xl" />
+      <div className="absolute right-[10%] top-24 -z-10 h-48 w-48 rounded-full bg-[#ffc7a6]/30 blur-3xl" />
 
-            {/* Floating Particles */}
-            <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none">
-                {[...Array(20)].map((_, i) => (
-                    <motion.div
-                        key={i}
-                        className="absolute bg-white/10 rounded-full blur-[1px]"
-                        style={{
-                            width: Math.random() * 4 + 2 + "px",
-                            height: Math.random() * 4 + 2 + "px",
-                            top: Math.random() * 100 + "%",
-                            left: Math.random() * 100 + "%",
-                        }}
-                        animate={{
-                            y: [0, -100],
-                            opacity: [0, 0.5, 0],
-                        }}
-                        transition={{
-                            duration: Math.random() * 10 + 10,
-                            repeat: Infinity,
-                            ease: "linear",
-                        }}
-                    />
-                ))}
-            </div>
+      <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[1.08fr_0.92fr] lg:items-center">
+        <motion.div
+          initial={{ opacity: 0, y: 18 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.55 }}
+          className="space-y-8"
+        >
+          <div className="inline-flex items-center gap-2 rounded-full border border-[#e2d3c2] bg-white/80 px-4 py-2 text-sm font-semibold text-[#6a5643] shadow-[0_12px_30px_rgba(45,35,24,0.06)]">
+            <Star className="size-4 text-[#ef8f54]" />
+            {brandCopy.eyebrow}
+          </div>
 
-            <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8 }}
-                className="space-y-8 max-w-4xl relative z-10"
+          <div className="space-y-5">
+            <h1 className="max-w-4xl text-5xl font-black tracking-[-0.04em] text-[#1f1915] md:text-7xl">
+              {brandCopy.headline}
+            </h1>
+            <p className="max-w-2xl text-lg leading-8 text-[#645547] md:text-xl">
+              {brandCopy.subheadline}
+            </p>
+            <p className="text-sm font-medium uppercase tracking-[0.28em] text-[#9b8168]">
+              {brandCopy.supportLine}
+            </p>
+          </div>
+
+          <div className="flex flex-col gap-3 sm:flex-row">
+            <Button
+              asChild
+              size="lg"
+              className="h-12 rounded-full bg-[#1f1915] px-6 text-[#fff2d4] hover:bg-[#34281f]"
             >
-                <h1 className="text-5xl md:text-8xl font-black tracking-tighter leading-none select-none font-sans">
-                    <motion.span
-                        className="block text-transparent bg-clip-text bg-gradient-to-r from-gray-300 via-gray-400 to-gray-500 filter drop-shadow-[0_0_10px_rgba(0,0,0,0.05)]"
-                        animate={{
-                            y: [0, -2, 0, 2, 0],
-                            opacity: [0.9, 1, 0.9]
-                        }}
-                        transition={{
-                            y: { duration: 4, repeat: Infinity, ease: "easeInOut" },
-                            opacity: { duration: 3, repeat: Infinity, ease: "easeInOut" }
-                        }}
-                    >
-                        我要饭
-                    </motion.span>
-                    <motion.span
-                        className="block text-4xl md:text-6xl mt-4 text-transparent bg-clip-text bg-gradient-to-r from-[#E7E7E7] to-[#F2A0B3] font-bold italic"
-                        initial={{ x: -20, opacity: 0 }}
-                        animate={{ x: 0, opacity: 1 }}
-                        transition={{ delay: 0.3, duration: 0.8 }}
-                    >
-                        但讲道理
-                    </motion.span>
-                </h1>
+              <a href="#projects">
+                立即试玩
+                <ArrowRight className="ml-1" />
+              </a>
+            </Button>
+            <Button
+              asChild
+              size="lg"
+              variant="outline"
+              className="h-12 rounded-full border-[#cfbda8] bg-white/80 px-6 text-[#2a221c] hover:bg-[#fff1de]"
+            >
+              <a href="#support">我全力支持</a>
+            </Button>
+          </div>
+        </motion.div>
 
-                <motion.p
-                    className="text-xl md:text-2xl text-text-main max-w-2xl mx-auto tracking-wide font-serif font-light"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.6 }}
-                >
-                    用一杯奶茶的钱，帮我多活一天。
-                </motion.p>
-
-                <motion.div
-                    className="pt-8"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                >
-                    <Button size="lg" className="text-lg px-10 py-8 rounded-full bg-amber-gold text-text-main hover:bg-gradient-to-r hover:from-amber-dark hover:to-amber-light transition-all duration-500 shadow-[0_0_30px_rgba(255,198,75,0.3)] border border-white/20 backdrop-blur-md font-sans font-bold">
-                        施舍一下
-                    </Button>
-                </motion.div>
-            </motion.div>
-
-            {/* Abstract Shapes */}
-            <div className="absolute inset-0 -z-20 overflow-hidden pointer-events-none">
-                <motion.div
-                    animate={{ rotate: 360 }}
-                    transition={{ duration: 50, repeat: Infinity, ease: "linear" }}
-                    className="absolute -top-1/2 -left-1/2 w-[100vw] h-[100vw] bg-gradient-to-b from-purple-500/5 to-transparent rounded-full blur-3xl"
-                />
+        <motion.div
+          initial={{ opacity: 0, scale: 0.96 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.55, delay: 0.08 }}
+          className="relative"
+        >
+          <div className="rounded-[32px] border border-[#e8dbcd] bg-[linear-gradient(180deg,rgba(255,255,255,0.92),rgba(255,244,229,0.88))] p-6 shadow-[0_30px_80px_rgba(40,30,21,0.08)]">
+            <div className="flex items-center justify-between text-xs font-semibold uppercase tracking-[0.22em] text-[#927961]">
+              <span>Feed the playground</span>
+              <span>not a SaaS</span>
             </div>
-        </section>
-    );
+
+            <div className="mt-6 grid gap-4 sm:grid-cols-2">
+              <div className="rounded-[24px] bg-[#1f1915] p-5 text-left text-[#fff0d1]">
+                <div className="text-xs uppercase tracking-[0.22em] text-[#e9c692]">
+                  为什么存在
+                </div>
+                <p className="mt-3 text-lg font-semibold leading-8">
+                  因为互联网上值得留下来的，不一定是最正经的工具。
+                </p>
+              </div>
+
+              <div className="rounded-[24px] border border-[#eadccd] bg-white p-5 text-left">
+                <div className="text-xs uppercase tracking-[0.22em] text-[#9e876f]">
+                  你会看到
+                </div>
+                <p className="mt-3 text-sm leading-7 text-[#5d4f41]">
+                  三个能现场试的 AI 小项目，一个全站通行证，以及一些略带讽刺但确实能用的文案。
+                </p>
+              </div>
+            </div>
+
+            <div className="mt-4 flex flex-wrap gap-3 text-sm text-[#6c5b4a]">
+              {["轻松活泼", "互联网原生", "有点讽刺", "但真能用"].map((item) => (
+                <span
+                  key={item}
+                  className="rounded-full border border-[#e5d6c6] bg-[#fff8f0] px-3 py-1.5"
+                >
+                  {item}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          <div className="absolute -bottom-5 left-6 rotate-[-3deg] rounded-2xl border border-[#ebdac8] bg-white px-4 py-3 text-sm text-[#705d49] shadow-[0_18px_40px_rgba(41,30,18,0.08)]">
+            “先好玩，再活下去。”
+          </div>
+        </motion.div>
+      </div>
+    </section>
+  );
 }

@@ -2,8 +2,13 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 import Stripe from 'stripe';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
-    apiVersion: '2025-11-17.clover',
+    apiVersion: '2026-02-25.clover',
 });
+
+const singleProjectPriceId =
+    process.env.STRIPE_PRICE_SINGLE_PROJECT ?? process.env.STRIPE_PRICE_DRINK;
+const allAccessPriceId =
+    process.env.STRIPE_PRICE_ALL_ACCESS ?? process.env.STRIPE_PRICE_DINNER;
 
 export default async function handler(
     req: VercelRequest,
@@ -14,44 +19,38 @@ export default async function handler(
     }
 
     try {
-        const { type, amount, display_name, message } = req.body;
+        const { type, display_name, message, project_id, project_name } = req.body;
         const origin = process.env.FRONTEND_ORIGIN ?? req.headers.origin ?? 'http://localhost:5173';
 
         let sessionConfig: Stripe.Checkout.SessionCreateParams = {
-            payment_method_types: ['card'],
             mode: 'payment',
             success_url: `${origin}/thankyou?session_id={CHECKOUT_SESSION_ID}`,
             cancel_url: `${origin}/`,
             metadata: {
                 display_name: display_name || '匿名好心人',
                 message: message || '',
+                project_id: project_id || '',
+                project_name: project_name || '',
             },
         };
 
-        if (type === 'drink') {
+        if (type === 'single_project') {
+            if (!singleProjectPriceId) {
+                throw new Error('Missing Stripe price for single project support');
+            }
             sessionConfig.line_items = [
                 {
-                    price: process.env.STRIPE_PRICE_DRINK,
+                    price: singleProjectPriceId,
                     quantity: 1,
                 },
             ];
-        } else if (type === 'dinner') {
+        } else if (type === 'all_access') {
+            if (!allAccessPriceId) {
+                throw new Error('Missing Stripe price for all access support');
+            }
             sessionConfig.line_items = [
                 {
-                    price: process.env.STRIPE_PRICE_DINNER,
-                    quantity: 1,
-                },
-            ];
-        } else if (type === 'cloud') {
-            const customAmount = amount && !isNaN(Number(amount)) && Number(amount) >= 1 ? Number(amount) : 100;
-
-            sessionConfig.line_items = [
-                {
-                    price_data: {
-                        currency: 'cad',
-                        product: process.env.STRIPE_PRODUCT_CLOUD,
-                        unit_amount: customAmount * 100, // Convert to cents
-                    },
+                    price: allAccessPriceId,
                     quantity: 1,
                 },
             ];

@@ -3,7 +3,7 @@ import Stripe from 'stripe';
 import { createClient } from '@supabase/supabase-js';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-    apiVersion: '2025-11-17.clover', // Update if necessary to match your API version
+    apiVersion: '2026-02-25.clover',
 });
 
 const supabaseUrl = process.env.SUPABASE_URL!;
@@ -59,12 +59,11 @@ export default async function handler(
         const message = metadata.message || '';
 
         try {
-            // Check for duplicates (should correspond to unique constraint in DB, but good to check)
             const { data: existing } = await supabase
                 .from('payments')
                 .select('id')
                 .eq('stripe_session_id', stripe_session_id)
-                .single();
+                .maybeSingle();
 
             if (existing) {
                 console.log(`Payment already exists: ${stripe_session_id}`);

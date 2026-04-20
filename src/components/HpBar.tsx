@@ -57,10 +57,10 @@ export function HpBar() {
 
     if (loading) {
         return (
-            <section className="py-8 px-4 max-w-2xl mx-auto">
-                <div className="space-y-4 bg-warm-card p-6 rounded-none border border-neutral-200/50 relative overflow-hidden shadow-sm">
-                    <div className="h-20 flex items-center justify-center text-sm text-neutral-400 font-mono">
-                        加载中...
+            <section className="px-4 py-6">
+                <div className="mx-auto max-w-4xl rounded-[28px] border border-[#e4d7ca] bg-white/80 p-6 shadow-[0_16px_44px_rgba(35,27,20,0.05)]">
+                    <div className="flex h-20 items-center justify-center text-sm font-medium text-[#96826d]">
+                        正在同步本站生存条...
                     </div>
                 </div>
             </section>
@@ -69,10 +69,10 @@ export function HpBar() {
 
     if (error || !stats) {
         return (
-            <section className="py-8 px-4 max-w-2xl mx-auto">
-                <div className="space-y-4 bg-warm-card p-6 rounded-none border border-neutral-200/50 relative overflow-hidden shadow-sm">
-                    <div className="h-20 flex items-center justify-center text-sm text-neutral-400 font-mono">
-                        [系统提示: 查询功德数据失败，正在重连...]
+            <section className="px-4 py-6">
+                <div className="mx-auto max-w-4xl rounded-[28px] border border-[#e4d7ca] bg-white/80 p-6 shadow-[0_16px_44px_rgba(35,27,20,0.05)]">
+                    <div className="flex h-20 items-center justify-center text-sm font-medium text-[#96826d]">
+                        生存条暂时掉线，支付系统和前端脸面还在努力重连。
                     </div>
                 </div>
             </section>
@@ -83,60 +83,51 @@ export function HpBar() {
     const isMaxLevel = currentLevel.max === null;
 
     return (
-        <section className="py-8 px-4 max-w-2xl mx-auto">
+        <section className="px-4 py-6">
             <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
-                className="space-y-4 bg-warm-card p-6 rounded-none border border-neutral-200/50 relative overflow-hidden group shadow-sm hover:shadow-md transition-all duration-500"
+                className="mx-auto max-w-4xl space-y-4 overflow-hidden rounded-[28px] border border-[#e5d9cd] bg-[linear-gradient(180deg,rgba(255,255,255,0.92),rgba(255,247,238,0.95))] p-6 shadow-[0_18px_44px_rgba(35,27,20,0.06)] transition-all duration-500 hover:shadow-[0_24px_56px_rgba(35,27,20,0.09)]"
             >
-                {/* Pixel corners - lighter */}
-                <div className="absolute top-0 left-0 w-2 h-2 bg-neutral-200" />
-                <div className="absolute top-0 right-0 w-2 h-2 bg-neutral-200" />
-                <div className="absolute bottom-0 left-0 w-2 h-2 bg-neutral-200" />
-                <div className="absolute bottom-0 right-0 w-2 h-2 bg-neutral-200" />
-
-                <div className="flex justify-between items-end mb-2 font-mono">
+                <div className="mb-2 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
                     <div className="space-y-1">
-                        <h3 className="text-lg font-bold tracking-tight text-text-main font-sans">HP / 饭钱</h3>
-                        <p className="text-xs text-text-sub font-serif">
-                            LV.{currentLevel.level} {currentLevel.name} (${totalAmount} / {isMaxLevel ? 'MAX' : `$${currentLevel.max}`})
+                        <p className="text-xs font-semibold uppercase tracking-[0.26em] text-[#9a836c]">
+                            Site status
+                        </p>
+                        <h3 className="text-2xl font-black tracking-tight text-[#211a15]">
+                            本站今日生存条
+                        </h3>
+                        <p className="text-sm text-[#6d5d4f]">
+                            当前阶段：LV.{currentLevel.level} {currentLevel.name}，累计饭量 CAD ${totalAmount}
                         </p>
                     </div>
-                    <Badge variant="outline" className="animate-pulse border-amber-gold text-amber-dark rounded-none font-mono text-xs bg-amber-gold/5">
+                    <Badge variant="outline" className="w-fit border-[#d6c4b2] bg-[#fff8ef] text-[#6a5848]">
                         STATUS: {currentLevel.status}
                     </Badge>
                 </div>
 
-                {/* HP Bar Container */}
-                <div className="relative h-8 w-full bg-white border border-neutral-200 rounded-none overflow-hidden shadow-inner">
-                    {/* Grid background */}
-                    <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNCIgaGVpZ2h0PSI0IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxwYXRoIGQ9Ik0xIDFhMSAxIDAgMSAwIDIgMGExIDEgMCAxIDAtMiAweiIgZmlsbD0iI2Q4YzhjOCIgZmlsbC1ydWxlPSJldmVub2RkIi8+PC9zdmc+')] opacity-20" />
-
+                <div className="relative h-8 w-full overflow-hidden rounded-full border border-[#eadfcf] bg-[#f3e7d8] shadow-inner">
                     <motion.div
-                        className="h-full bg-gradient-to-r from-amber-gold to-rouge-pink relative"
+                        className="relative h-full bg-[linear-gradient(90deg,#221b16,#d97e45)]"
                         initial={{ width: 0 }}
                         animate={{ width: `${progress}%` }}
                         transition={{ duration: 3, ease: "easeInOut" }}
                     >
-                        {/* Shine effect */}
                         <div className="absolute top-0 left-0 w-full h-1 bg-white/30" />
-                        <div className="absolute bottom-0 left-0 w-full h-1 bg-black/5" />
-
-                        {/* Glare animation */}
                         <motion.div
-                            className="absolute top-0 right-0 w-10 h-full bg-white/40 skew-x-12 blur-md"
-                            animate={{ x: [-200, 800] }}
+                            className="absolute right-0 top-0 h-full w-10 skew-x-12 bg-white/35 blur-md"
+                            animate={{ x: [-120, 740] }}
                             transition={{ duration: 3, repeat: Infinity, repeatDelay: 2, ease: "easeInOut" }}
                         />
                     </motion.div>
                 </div>
 
-                <p className="text-xs text-right text-text-sub pt-2 font-mono">
+                <p className="pt-2 text-right text-xs text-[#796656]">
                     {isMaxLevel ? (
-                        'MAX LEVEL ACHIEVED'
+                        '本站已经被喂到最高阶段。'
                     ) : (
-                        `NEXT LEVEL: $${nextLevel.neededExp} EXP`
+                        `距离下一阶段还差 CAD $${nextLevel.neededExp}`
                     )}
                 </p>
             </motion.div>
